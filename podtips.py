@@ -141,15 +141,12 @@ def timestamp(seconds):
     return f"{hours}:{minutes:02}:{seconds:02}" if hours else f"{minutes}:{seconds:02}"
 
 
-def vtt_to_text(vtt):
+def subtitles_to_text(subtitles):
+    cues = re.findall(r"(\d+):(\d+):(\d+)[.,]\d+ --> .*\n((?:.+\n?)+)", subtitles.replace("\r\n", "\n"))
     lines = []
-    for block in vtt.replace("\r\n", "\n").split("\n\n")[1:]:
-        parts = block.strip().split("\n")
-        if len(parts) < 3:
-            continue
-        hours, minutes, seconds = parts[1].split(" --> ")[0].split(":")
-        start = int(hours) * 3600 + int(minutes) * 60 + float(seconds)
-        lines.append(f"[{timestamp(start)}] {' '.join(parts[2:])}")
+    for hours, minutes, seconds, text in cues:
+        start = int(hours) * 3600 + int(minutes) * 60 + int(seconds)
+        lines.append(f"[{timestamp(start)}] {' '.join(text.split())}")
     return "\n".join(lines)
 
 
@@ -170,7 +167,7 @@ def transcript(episode):
     if path.exists():
         return path.read_text()
     if episode["transcript_url"]:
-        text = vtt_to_text(fetch(episode["transcript_url"]).decode())
+        text = subtitles_to_text(fetch(episode["transcript_url"]).decode())
     else:
         text = whisper(episode)
     path.write_text(text)
