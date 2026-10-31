@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Find movie and album tips in podcasts and write one Markdown file per episode,
-then commit and push the result.
+build one web page per podcast, then commit and push the result.
 
 Usage:
   .venv/bin/python podtips.py                  process new episodes
@@ -21,12 +21,14 @@ from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 
+import markdown
 import mlx_whisper
 
 ROOT = Path(__file__).parent
 DONE = ROOT / "done.json"
 AUDIO = ROOT / "audio"
 TRANSCRIPTS = ROOT / "transcripts"
+SITE = ROOT / "docs"
 
 # Episodes older than this are skipped unless you use --only.
 START_DATE = datetime(2026, 10, 31, tzinfo=timezone.utc)
@@ -61,6 +63,26 @@ LABELS = {
 }
 
 PODCAST_NS = "{https://podcastindex.org/namespace/1.0}"
+
+PAGE = """<!doctype html>
+<html lang="{language}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<style>
+:root {{ color-scheme: light dark; }}
+body {{ max-width: 42rem; margin: 0 auto; padding: 1rem; font: 1.05rem/1.5 system-ui, sans-serif; }}
+h2 {{ margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #8884; line-height: 1.25; }}
+li {{ margin-bottom: 0.75rem; }}
+</style>
+</head>
+<body>
+<h1>{title}</h1>
+{body}
+</body>
+</html>
+"""
 
 PROMPT = """Below are the show notes and the transcript of a podcast episode called "{title}".
 The transcript comes from speech recognition, so names and titles can be misspelled.
@@ -231,6 +253,21 @@ def write_episode(episode, tips):
     (folder / f"{date}-{slug(episode['title'])}.md").write_text("\n".join(lines))
 
 
+def build_site():
+    SITE.mkdir(exist_ok=True)
+    links = []
+    for feed in FEEDS:
+        name = slug(feed["name"])
+        files = sorted((ROOT / name).glob("*.md"), reverse=True)
+        if not files:
+            continue
+        text = "\n".join(file.read_text().split("---\n", 2)[2] for file in files)
+        body = markdown.markdown(text, extensions=["toc"], extension_configs={"toc": {"baselevel": 2}})
+        (SITE / f"{name}.html").write_text(PAGE.format(language=feed["language"], title=feed["name"], body=body))
+        links.append(f'<li><a href="{name}.html">{feed["name"]}</a></li>')
+    (SITE / "index.html").write_text(PAGE.format(language="en", title="Podtips", body=f"<ul>{''.join(links)}</ul>"))
+
+
 def publish():
     for command in (["git", "add", "-A"], ["git", "commit", "-m", "Update podcast tips"], ["git", "push"]):
         subprocess.run(command, cwd=ROOT, check=True)
@@ -271,6 +308,7 @@ def main():
             print(f"  {len(tips)} tips, total {time.time() - started:.0f} s", flush=True)
 
     if len(done) > finished_before:
+        build_site()
         publish()
 
 

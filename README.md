@@ -1,6 +1,6 @@
 # Podtips
 
-Podtips finds movie and music tips in podcasts. It writes one Markdown file per episode and pushes the files to this GitHub repo. You can then read the tips on a computer or a phone.
+Podtips finds movie and music tips in podcasts. It writes one Markdown file per episode, builds one long web page per podcast and pushes the files to this GitHub repo. You can then read the tips on a computer or a phone at https://jannejava.github.io/podtips/.
 
 ## How it works
 
@@ -8,7 +8,8 @@ Podtips finds movie and music tips in podcasts. It writes one Markdown file per 
 2. It gets a transcript. It uses the transcript from the feed if there is one. If not, it downloads the audio and uses Whisper on the Mac GPU.
 3. It sends the show notes and the transcript to Claude with the `claude` command. Claude returns the tips.
 4. It writes one file for the episode.
-5. It commits and pushes the result.
+5. It builds the web pages in `docs/`, with the newest episode at the top.
+6. It commits and pushes the result. GitHub Pages then serves `docs/`.
 
 The audio file is deleted after transcription. The transcript stays in `transcripts/`, so a new extraction does not need Whisper again.
 
@@ -68,12 +69,13 @@ The rules for what counts as a tip are in `PROMPT` in `podtips.py`.
 | `podtips.py` | The script | Yes |
 | `done.json` | The finished episodes | Yes |
 | `<podcast>/<date>-<title>.md` | One file per episode | Yes |
+| `docs/` | The web pages | Yes |
 | `transcripts/` | Saved transcripts | No |
 | `audio/` | Audio during transcription | No |
 | `models/` | Whisper models | No |
 | `.venv/` | Python environment | No |
 
-Each episode file starts with a data block with the podcast, title, date and link. Website generators can read this block, so the files are ready for a web page later.
+Each episode file starts with a data block with the podcast, title, date and link.
 
 ## Setup on a new Mac
 
@@ -81,7 +83,7 @@ You need an Apple Silicon Mac, ffmpeg, `uv`, and the `claude` command with a log
 
 ```
 uv venv --python 3.12 .venv
-uv pip install --python .venv/bin/python mlx-whisper
+uv pip install --python .venv/bin/python mlx-whisper markdown
 .venv/bin/python -c "
 from huggingface_hub import snapshot_download
 snapshot_download('jegeblad/kb-whisper-large-mlx-q4', local_dir='models/kb-whisper-large-mlx-q4')
