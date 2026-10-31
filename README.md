@@ -1,13 +1,15 @@
 # Podtips
 
-Podtips finds movie and music tips in podcasts. It writes one Markdown file per episode and pushes the files to this GitHub repo. You can then read the tips on a computer or a phone.
+Podtips finds movie and music tips in podcasts. It writes one Markdown file per episode and pushes the files to this GitHub repo. GitHub Pages publishes them at https://jannejava.github.io/podtips/.
+
+The web page is public, also when the repo is private. Only the `docs/` folder is published.
 
 ## How it works
 
 1. The script reads the RSS feed of each podcast.
 2. It gets a transcript. It uses the transcript from the feed if there is one. If not, it downloads the audio and uses Whisper on the Mac GPU.
 3. It sends the show notes and the transcript to Claude with the `claude` command. Claude returns the tips.
-4. It writes one file for the episode.
+4. It writes one file for the episode in `docs/` and updates `docs/index.md`.
 5. It commits and pushes the result.
 
 The audio file is deleted after transcription. The transcript stays in `transcripts/`, so a new extraction does not need Whisper again.
@@ -67,7 +69,8 @@ The rules for what counts as a tip are in `PROMPT` in `podtips.py`.
 |---|---|---|
 | `podtips.py` | The script | Yes |
 | `done.json` | The finished episodes | Yes |
-| `<podcast>/<date>-<title>.md` | One file per episode | Yes |
+| `docs/index.md` | The start page with all episodes | Yes |
+| `docs/<podcast>/<date>-<title>.md` | One file per episode | Yes |
 | `transcripts/` | Saved transcripts | No |
 | `audio/` | Audio during transcription | No |
 | `models/` | Whisper models | No |

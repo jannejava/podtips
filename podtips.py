@@ -24,6 +24,7 @@ from pathlib import Path
 import mlx_whisper
 
 ROOT = Path(__file__).parent
+DOCS = ROOT / "docs"
 DONE = ROOT / "done.json"
 AUDIO = ROOT / "audio"
 TRANSCRIPTS = ROOT / "transcripts"
@@ -212,7 +213,7 @@ def slug(text):
 
 
 def write_episode(episode, tips):
-    folder = ROOT / slug(episode["podcast"])
+    folder = DOCS / slug(episode["podcast"])
     folder.mkdir(exist_ok=True)
     date = f"{episode['date']:%Y-%m-%d}"
     labels = LABELS[episode["language"]]
@@ -229,6 +230,18 @@ def write_episode(episode, tips):
         *tip_section(labels["music"], [t for t in tips if t["type"] in ("album", "song")], labels),
     ]
     (folder / f"{date}-{slug(episode['title'])}.md").write_text("\n".join(lines))
+
+
+def write_index():
+    lines = ["# Podtips\n"]
+    for feed in FEEDS:
+        folder = DOCS / slug(feed["name"])
+        lines.append(f"## {feed['name']}\n")
+        for path in sorted(folder.glob("*.md"), reverse=True):
+            title = re.search(r"^# (.+)$", path.read_text(), re.MULTILINE)[1]
+            lines.append(f"- {path.name[:10]}: [{title}]({folder.name}/{path.name})")
+        lines.append("")
+    (DOCS / "index.md").write_text("\n".join(lines))
 
 
 def publish():
@@ -271,6 +284,7 @@ def main():
             print(f"  {len(tips)} tips, total {time.time() - started:.0f} s", flush=True)
 
     if len(done) > finished_before:
+        write_index()
         publish()
 
 
