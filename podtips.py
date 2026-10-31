@@ -45,6 +45,13 @@ FEEDS = [
     },
 ]
 
+LABELS = {
+    "sv": {"language": "Swedish", "where": "Var", "not_impressed": "Värdarna var inte imponerade.",
+           "movies": "Filmer och serier", "music": "Musik"},
+    "en": {"language": "English", "where": "Where", "not_impressed": "The hosts were not impressed.",
+           "movies": "Movies and series", "music": "Music"},
+}
+
 PODCAST_NS = "{https://podcastindex.org/namespace/1.0}"
 
 PROMPT = """Below are the show notes and the transcript of a podcast episode called "{title}".
@@ -68,11 +75,11 @@ Use the order of the transcript.
 
 Reply with only a JSON array. Each item has these keys:
   "type": "movie", "series", "album" or "song"
-  "title": the title
+  "title": the title. For movies and series, use the English release title if there is one.
   "creator": the artist or director, or "" if not known
   "year": the release year, or "" if not known
   "verdict": "liked" or "not impressed"
-  "comment": one or two short sentences in English: what it is, and what the hosts think of it
+  "comment": one or two short sentences in {language}: what it is, and what the hosts think of it
   "where": for movies and series, where the hosts say you can see it, for example "Netflix"
     or "in cinemas". Use "" if they do not say. Do not guess.
   "time": the time from the transcript where it is discussed, without brackets
@@ -158,7 +165,8 @@ def transcript(episode):
 
 
 def extract(episode, text):
-    prompt = PROMPT.format(title=episode["title"], notes=episode["notes"], transcript=text)
+    prompt = PROMPT.format(title=episode["title"], notes=episode["notes"], transcript=text,
+                           language=LABELS[episode["language"]]["language"])
     command = ["claude", "-p", "--model", "sonnet", "--tools", "", "--strict-mcp-config",
                "--no-session-persistence"]
     reply = subprocess.run(command, input=prompt, capture_output=True, text=True, check=True).stdout
@@ -175,18 +183,18 @@ def search_links(tip):
             f"[Rotten Tomatoes](https://www.rottentomatoes.com/search?search={title})")
 
 
-def tip_entry(tip):
+def tip_entry(tip, labels):
     details = [str(part) for part in (tip["creator"], tip["year"]) if part]
     if tip["type"] != "movie":
         details.append(tip["type"])
-    where = f" Where: {tip['where']}." if tip.get("where") else ""
-    remark = "The hosts were not impressed. " if tip.get("verdict") == "not impressed" else ""
+    where = f" {labels['where']}: {tip['where']}." if tip.get("where") else ""
+    remark = f"{labels['not_impressed']} " if tip.get("verdict") == "not impressed" else ""
     time_mark = f" · {tip['time']}" if tip.get("time") else ""
     return f"- **{tip['title']}** ({', '.join(details)})  \n  {remark}{tip['comment']}{where}  \n  {search_links(tip)}{time_mark}\n"
 
 
-def tip_section(heading, tips):
-    return [f"## {heading}\n", *map(tip_entry, tips)] if tips else []
+def tip_section(heading, tips, labels):
+    return [f"## {heading}\n", *(tip_entry(tip, labels) for tip in tips)] if tips else []
 
 
 def slug(text):
@@ -198,6 +206,7 @@ def write_episode(episode, tips):
     folder = ROOT / slug(episode["podcast"])
     folder.mkdir(exist_ok=True)
     date = f"{episode['date']:%Y-%m-%d}"
+    labels = LABELS[episode["language"]]
     lines = [
         "---",
         f"podcast: {json.dumps(episode['podcast'], ensure_ascii=False)}",
@@ -207,8 +216,8 @@ def write_episode(episode, tips):
         "---\n",
         f"# {episode['title']}\n",
         f"[{episode['podcast']}]({episode['link']}), {date}\n",
-        *tip_section("Movies and series", [t for t in tips if t["type"] in ("movie", "series")]),
-        *tip_section("Music", [t for t in tips if t["type"] in ("album", "song")]),
+        *tip_section(labels["movies"], [t for t in tips if t["type"] in ("movie", "series")], labels),
+        *tip_section(labels["music"], [t for t in tips if t["type"] in ("album", "song")], labels),
     ]
     (folder / f"{date}-{slug(episode['title'])}.md").write_text("\n".join(lines))
 
