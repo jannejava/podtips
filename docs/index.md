@@ -12,6 +12,7 @@
 - 2026-09-28: [Earfood – Roy Hargrove](youll-hear-it/2026-09-28-earfood-roy-hargrove.md)
 - 2026-07-03: [Our TOP Picks For Your Favorite Listens of July 2026](youll-hear-it/2026-07-03-our-top-picks-for-your-favorite-listens-of-july-2026.md)
 - 2026-03-27: [Best New Jazz Of March 2026](youll-hear-it/2026-03-27-best-new-jazz-of-march-2026.md)
+- 2026-01-31: [Fresh Spin Fridays - January 2026](youll-hear-it/2026-01-31-fresh-spin-fridays-january-2026.md)
 
 ## Pablo Held Investigates
 
