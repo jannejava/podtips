@@ -5,6 +5,7 @@ then commit and push the result.
 Usage:
   .venv/bin/python podtips.py                  process new episodes
   .venv/bin/python podtips.py --only Earfood   process episodes with this text in the title
+  .venv/bin/python podtips.py --only <url>     process the episode at this pabloheld.com link
 """
 import argparse
 import hashlib
@@ -43,6 +44,13 @@ FEEDS = [
         "language": "en",
         "model": ROOT / "models/whisper-large-v3-turbo",
     },
+    {
+        "name": "Pablo Held Investigates",
+        "url": "https://pabloheldinvestigates.com/feed/podcast/",
+        "language": "en",
+        "model": ROOT / "models/whisper-large-v3-turbo",
+        "only_on_request": True,
+    },
 ]
 
 LABELS = {
@@ -57,7 +65,7 @@ PODCAST_NS = "{https://podcastindex.org/namespace/1.0}"
 PROMPT = """Below are the show notes and the transcript of a podcast episode called "{title}".
 The transcript comes from speech recognition, so names and titles can be misspelled.
 
-List the movies, TV series, albums and songs that the hosts present as worth watching or hearing.
+List the movies, TV series, albums and songs that the hosts or guests present as worth watching or hearing.
 Use the order of the transcript.
 - Always include a title that the episode title or show notes name.
 - Also include movies and series that the hosts review but are not impressed by.
@@ -119,6 +127,7 @@ def episodes(feed):
             "transcript_url": transcript.get("url") if transcript is not None else None,
             "language": feed["language"],
             "model": feed["model"],
+            "only_on_request": feed.get("only_on_request", False),
         }
 
 
@@ -227,17 +236,23 @@ def publish():
         subprocess.run(command, cwd=ROOT, check=True)
 
 
+def link_name(url):
+    return url.rstrip("/").rsplit("/", 1)[-1]
+
+
 def is_wanted(episode, done, only):
     if episode["guid"] in done:
         return False
+    if only and only.startswith("http"):
+        return link_name(only) in (slug(episode["title"]), link_name(episode["link"]))
     if only:
         return only.lower() in episode["title"].lower()
-    return episode["date"] >= START_DATE
+    return not episode["only_on_request"] and episode["date"] >= START_DATE
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--only", help="process episodes with this text in the title")
+    parser.add_argument("--only", help="text in the episode title, or a pabloheld.com episode link")
     only = parser.parse_args().only
 
     done = json.loads(DONE.read_text()) if DONE.exists() else []
