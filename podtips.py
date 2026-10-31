@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Find movie and album tips in podcasts and write one Markdown file per episode.
+"""Find movie and album tips in podcasts and write one Markdown file per episode,
+then commit and push the result.
 
 Usage:
   .venv/bin/python podtips.py                  process new episodes
@@ -212,6 +213,11 @@ def write_episode(episode, tips):
     (folder / f"{date}-{slug(episode['title'])}.md").write_text("\n".join(lines))
 
 
+def publish():
+    for command in (["git", "add", "-A"], ["git", "commit", "-m", "Update podcast tips"], ["git", "push"]):
+        subprocess.run(command, cwd=ROOT, check=True)
+
+
 def is_wanted(episode, done, only):
     if episode["guid"] in done:
         return False
@@ -226,6 +232,7 @@ def main():
     only = parser.parse_args().only
 
     done = json.loads(DONE.read_text()) if DONE.exists() else []
+    finished_before = len(done)
     for feed in FEEDS:
         wanted = [e for e in episodes(feed) if is_wanted(e, done, only)]
         for episode in sorted(wanted, key=lambda e: e["date"]):
@@ -238,6 +245,9 @@ def main():
             done.append(episode["guid"])
             DONE.write_text(json.dumps(done, indent=1))
             print(f"  {len(tips)} tips, total {time.time() - started:.0f} s", flush=True)
+
+    if len(done) > finished_before:
+        publish()
 
 
 if __name__ == "__main__":
