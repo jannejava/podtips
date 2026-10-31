@@ -12,33 +12,33 @@ link: https://youllhearit.com/episodes/our-top-picks-for-your-favorite-listens-o
 ## Music
 
 - **Inferno** (Boards of Canada, 2026, album)  
-  The first Boards of Canada album in 10 years. The hosts say it lives up to the hype and feels more cinematic than the last ones. They suggest listening front to back. Track played: Prophecy at 1420 MHz.  
-  [Spotify](https://open.spotify.com/search/Inferno%20Boards%20of%20Canada) · 0:44
+  First album from the electronic duo in 10 years. The hosts say it lives up to the hype and is more cinematic than the last ones. They like the textures and suggest you listen from start to end. They talk about Prophecy at 1420 MHz (1:12).  
+  [Spotify](https://open.spotify.com/search/Inferno%20Boards%20of%20Canada) · 1:54
 
 - **With Every Breath I Take** (Cécile McLorin Salvant & Metropole Orkest, 2026, album)  
-  Recorded in the Netherlands with Jules Buckley conducting and Sullivan Fortner on piano. The hosts call it an amazing, haunting album that you must check out. Title track played.  
-  [Spotify](https://open.spotify.com/search/With%20Every%20Breath%20I%20Take%20C%C3%A9cile%20McLorin%20Salvant%20%26%20Metropole%20Orkest) · 2:43
+  Vocal album with the Metropole Orkest, recorded in the Netherlands, with Sullivan Fortner, David Wong and Kush Abadey. The hosts call it incredible and haunting. They play the title track (3:08).  
+  [Spotify](https://open.spotify.com/search/With%20Every%20Breath%20I%20Take%20C%C3%A9cile%20McLorin%20Salvant%20%26%20Metropole%20Orkest) · 4:22
 
 - **Spontaneous Music Live** (SML, 2026, album)  
-  A live improvised take recorded at the Zebulon in LA, released as two tracks (A-side and B-side) on International Anthem. The hosts call it incredible and say you must check it out.  
-  [Spotify](https://open.spotify.com/search/Spontaneous%20Music%20Live%20SML) · 4:40
+  Fully improvised live take from the Zebulon in LA, released as two tracks on International Anthem. The hosts say you must check it out.  
+  [Spotify](https://open.spotify.com/search/Spontaneous%20Music%20Live%20SML) · 6:19
 
 - **We Dream** (Lakecia Benjamin, 2026, album)  
-  Features a large guest cast, including Terence Blanchard, Chris Potter, Hiromi and Bilal. The hosts call it incredible and say you must hear where the track goes.  
-  [Spotify](https://open.spotify.com/search/We%20Dream%20Lakecia%20Benjamin) · 6:40
+  New album with a large cast of guests, including Terence Blanchard, Chris Potter and Hiromi. The hosts like the track they play, which switches between two modes, and say you have to hear where it goes.  
+  [Spotify](https://open.spotify.com/search/We%20Dream%20Lakecia%20Benjamin) · 9:11
 
-- **Fergament Park** (Sam Barsh, Mark Giuliana, Keyon Harrold, 2026, album)  
-  A beat-driven trio project released by La Reserve Records. The hosts praise the groove of Giuliana's drumming and Harrold's melodic playing. The title is as heard in the transcript and may be misspelled.  
-  [Spotify](https://open.spotify.com/search/Fergament%20Park%20Sam%20Barsh%2C%20Mark%20Giuliana%2C%20Keyon%20Harrold) · 9:14
+- **Fergament Park** (Sam Barsh, Mark Guiliana & Keyon Harrold, 2026, album)  
+  Beat-driven trio project released by La Reserve Records. The hosts like the groove, Guiliana's percussive drumming and Harrold's melodic playing.  
+  [Spotify](https://open.spotify.com/search/Fergament%20Park%20Sam%20Barsh%2C%20Mark%20Guiliana%20%26%20Keyon%20Harrold) · 10:41
 
 - **Universal Truth** (Emmet Cohen, 2026, album)  
-  Trio album with Joe Farnsworth and Yasushi Nakamura, plus guests Ron Carter, George Coleman and Jeremy Pelt. The hosts praise the tightness of the trio. Track played: Budo.  
-  [Spotify](https://open.spotify.com/search/Universal%20Truth%20Emmet%20Cohen) · 10:46
+  Piano trio album with Joe Farnsworth and Yasushi Nakamura, plus guests such as Ron Carter and George Coleman. The hosts praise the tightness of the trio. They talk about Budo (11:17).  
+  [Spotify](https://open.spotify.com/search/Universal%20Truth%20Emmet%20Cohen) · 12:27
 
 - **Feebles, Fables, and Ferns** (Fred Hersch & Mick Goodrick, 2026, album)  
-  A guitar and piano duo recorded in 1988 and released in June 2026 on ECM. The hosts call it an amazing story and a great way to remember Mick Goodrick. The title is as heard in the transcript and may be misspelled.  
-  [Spotify](https://open.spotify.com/search/Feebles%2C%20Fables%2C%20and%20Ferns%20Fred%20Hersch%20%26%20Mick%20Goodrick) · 12:48
+  Guitar and piano duo recorded in 1988 and released on ECM in June 2026. The hosts call it a great way to remember Mick Goodrick. They talk about the title track (14:24).  
+  [Spotify](https://open.spotify.com/search/Feebles%2C%20Fables%2C%20and%20Ferns%20Fred%20Hersch%20%26%20Mick%20Goodrick) · 14:15
 
-- **Tomorrow Is Today** (Phoenix Trio (Mark Turner, Joe Martin, Marcus Gilmore), 2026, album)  
-  A saxophone trio album with a conversational feel. One host says it needs more big, thick chords, but both call it an amazing recording. Track played: 1946.  
-  [Spotify](https://open.spotify.com/search/Tomorrow%20Is%20Today%20Phoenix%20Trio%20%28Mark%20Turner%2C%20Joe%20Martin%2C%20Marcus%20Gilmore%29) · 16:19
+- **Tomorrow Is Today** (Phoenix Trio, 2026, album)  
+  Saxophone trio album with Mark Turner, Joe Martin and Marcus Gilmore. The hosts call it amazing and say the three masters bring out the format well, though one host would add bigger chords. They talk about 1946 (16:34).  
+  [Spotify](https://open.spotify.com/search/Tomorrow%20Is%20Today%20Phoenix%20Trio) · 17:39
