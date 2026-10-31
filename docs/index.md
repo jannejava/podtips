@@ -6,6 +6,7 @@
 - 2026-10-23: [119. – The Social Reckoning, Tenzing och Master and Commander](bio-min-bio-podden/2026-10-23-119-the-social-reckoning-tenzing-och-master-and-commander.md)
 - 2026-10-12: [116. – Streaming special 6! – Tips på 6 filmer!](bio-min-bio-podden/2026-10-12-116-streaming-special-6-tips-pa-6-filmer.md)
 - 2026-10-06: [114. – Utvalda Klassiker med Filmstaden – Blade Runner](bio-min-bio-podden/2026-10-06-114-utvalda-klassiker-med-filmstaden-blade-runner.md)
+- 2026-09-23: [111. – Utvalda Klassiker med Filmstaden – The Truman Show](bio-min-bio-podden/2026-09-23-111-utvalda-klassiker-med-filmstaden-the-truman-show.md)
 
 ## You'll Hear It
 
