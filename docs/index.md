@@ -30,4 +30,5 @@
 ## Börsens Finest
 
 - 2026-11-04: [Avsnitt 75 - Fasregelns comeback](borsens-finest/2026-11-04-avsnitt-75-fasregelns-comeback.md)
+- 2026-10-28: [Avsnitt 74 - Legolands Finest](borsens-finest/2026-10-28-avsnitt-74-legolands-finest.md)
 - 2026-10-14: [Avsnitt 72 - Den sämsta studentföreningen](borsens-finest/2026-10-14-avsnitt-72-den-samsta-studentforeningen.md)
