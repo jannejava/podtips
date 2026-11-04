@@ -26,3 +26,7 @@
 - 2022-12-14: [John Patitucci](pablo-held-investigates/2022-12-14-john-patitucci.md)
 - 2021-11-01: [Larry Goldings 2](pablo-held-investigates/2021-11-01-larry-goldings-2.md)
 - 2020-02-03: [Larry Goldings](pablo-held-investigates/2020-02-03-larry-goldings.md)
+
+## Börsens Finest
+
+- 2026-10-14: [Avsnitt 72 - Den sämsta studentföreningen](borsens-finest/2026-10-14-avsnitt-72-den-samsta-studentforeningen.md)
