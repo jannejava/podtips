@@ -2,6 +2,7 @@
 
 ## Bio min Bio podden
 
+- 2026-11-06: [123. – Wildwood, Tuner och A Fish Called Wanda](bio-min-bio-podden/2026-11-06-123-wildwood-tuner-och-a-fish-called-wanda.md)
 - 2026-11-03: [122. – Utvalda Klassiker med Filmstaden – The Fugitive](bio-min-bio-podden/2026-11-03-122-utvalda-klassiker-med-filmstaden-the-fugitive.md)
 - 2026-10-26: [120. – Streaming Special 7! – Tips på 6 filmer!](bio-min-bio-podden/2026-10-26-120-streaming-special-7-tips-pa-6-filmer.md)
 - 2026-10-23: [119. – The Social Reckoning, Tenzing och Master and Commander](bio-min-bio-podden/2026-10-23-119-the-social-reckoning-tenzing-och-master-and-commander.md)
