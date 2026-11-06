@@ -1,6 +1,6 @@
 # Podtips
 
-Podtips finds movie and music tips in podcasts. It writes one Markdown file per episode and pushes the files to this GitHub repo. GitHub Pages publishes them at https://jannejava.github.io/podtips/.
+Podtips finds movie and music tips in podcasts. It also finds IPOs and new share issues in an economics podcast. It writes one Markdown file per episode and pushes the files to this GitHub repo. GitHub Pages publishes them at https://jannejava.github.io/podtips/.
 
 The web page is public, also when the repo is private. Only the `docs/` folder is published.
 
@@ -49,6 +49,7 @@ To process an episode again, remove its entry from `done.json` and run the scrip
 | Bio min Bio podden | Swedish | Automatic |
 | You'll Hear It | English | Automatic |
 | Pablo Held Investigates | English | Only when you name the episode |
+| Börsens Finest | Swedish | Automatic |
 
 To add a podcast, add an entry to `FEEDS` in `podtips.py`. Set `"only_on_request": True` if you want to select the episodes yourself.
 
@@ -62,6 +63,14 @@ Each tip has a title, a creator, a year, a short comment and search links. Movie
 - Movies that the hosts review but do not like stay in the list, with a remark.
 
 The rules for what counts as a tip are in `PROMPT` in `podtips.py`.
+
+## IPOs and new share issues
+
+For Börsens Finest, the script uses another rule, `LISTINGS_PROMPT`. It lists each company that the hosts talk about in connection with an IPO (börsintroduktion) or a new share issue (nyemission). Each company has a type, a short comment in Swedish and a time in the episode. It has no search links.
+
+The feed has no episode web pages, so the episode link points to the audio file. An episode with no IPO or new share issue gets a page without a list.
+
+To use this rule for another podcast, set `"prompt": "listings"` in its `FEEDS` entry.
 
 ## Files
 
