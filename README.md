@@ -59,7 +59,7 @@ Each tip has a title, a creator, a year, a short comment and search links. Movie
 
 - Comments use the language of the podcast.
 - Movies and series use the English release title if there is one.
-- "Where" tells where the hosts said that you can see the movie. This is true for the episode date and can change later.
+- "Where" tells where you can see the movie in Sweden. Claude looks it up on JustWatch Sweden and also uses what the hosts said. This is true for the date of the run and can change later.
 - Movies that the hosts review but do not like stay in the list, with a remark.
 
 The rules for what counts as a tip are in `PROMPT` in `podtips.py`.
