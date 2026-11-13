@@ -2,6 +2,7 @@
 
 ## Bio min Bio podden
 
+- 2026-11-13: [124. – Clayface, The Get Out och Apocalypse Now (final cut)](bio-min-bio-podden/2026-11-13-124-clayface-the-get-out-och-apocalypse-now-final-cut.md)
 - 2026-11-06: [123. – Wildwood, Tuner och A Fish Called Wanda](bio-min-bio-podden/2026-11-06-123-wildwood-tuner-och-a-fish-called-wanda.md)
 - 2026-11-03: [122. – Utvalda Klassiker med Filmstaden – The Fugitive](bio-min-bio-podden/2026-11-03-122-utvalda-klassiker-med-filmstaden-the-fugitive.md)
 - 2026-10-26: [120. – Streaming Special 7! – Tips på 6 filmer!](bio-min-bio-podden/2026-10-26-120-streaming-special-7-tips-pa-6-filmer.md)
@@ -13,6 +14,7 @@
 
 ## You'll Hear It
 
+- 2026-11-09: [Peak Millennial Jazz?](youll-hear-it/2026-11-09-peak-millennial-jazz.md)
 - 2026-11-02: [Love Deluxe - Sade](youll-hear-it/2026-11-02-love-deluxe-sade.md)
 - 2026-10-19: [The Coziest Tracks We Know](youll-hear-it/2026-10-19-the-coziest-tracks-we-know.md)
 - 2026-09-28: [Earfood – Roy Hargrove](youll-hear-it/2026-09-28-earfood-roy-hargrove.md)
@@ -30,6 +32,7 @@
 
 ## Börsens Finest
 
+- 2026-11-11: [Avsnitt 76 - Tips till Robert 40](borsens-finest/2026-11-11-avsnitt-76-tips-till-robert-40.md)
 - 2026-11-04: [Avsnitt 75 - Fasregelns comeback](borsens-finest/2026-11-04-avsnitt-75-fasregelns-comeback.md)
 - 2026-10-28: [Avsnitt 74 - Legolands Finest](borsens-finest/2026-10-28-avsnitt-74-legolands-finest.md)
 - 2026-10-21: [Avsnitt 73 - OMXS28](borsens-finest/2026-10-21-avsnitt-73-omxs28.md)
