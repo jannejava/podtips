@@ -2,6 +2,7 @@
 
 ## Bio min Bio podden
 
+- 2026-11-17: [125. – Utvalda Klassiker med Filmstaden – Dirty Harry](bio-min-bio-podden/2026-11-17-125-utvalda-klassiker-med-filmstaden-dirty-harry.md)
 - 2026-11-13: [124. – Clayface, The Get Out och Apocalypse Now (final cut)](bio-min-bio-podden/2026-11-13-124-clayface-the-get-out-och-apocalypse-now-final-cut.md)
 - 2026-11-06: [123. – Wildwood, Tuner och A Fish Called Wanda](bio-min-bio-podden/2026-11-06-123-wildwood-tuner-och-a-fish-called-wanda.md)
 - 2026-11-03: [122. – Utvalda Klassiker med Filmstaden – The Fugitive](bio-min-bio-podden/2026-11-03-122-utvalda-klassiker-med-filmstaden-the-fugitive.md)
@@ -14,6 +15,7 @@
 
 ## You'll Hear It
 
+- 2026-11-16: [Sunlight - Herbie Hancock](youll-hear-it/2026-11-16-sunlight-herbie-hancock.md)
 - 2026-11-09: [Peak Millennial Jazz?](youll-hear-it/2026-11-09-peak-millennial-jazz.md)
 - 2026-11-02: [Love Deluxe - Sade](youll-hear-it/2026-11-02-love-deluxe-sade.md)
 - 2026-10-19: [The Coziest Tracks We Know](youll-hear-it/2026-10-19-the-coziest-tracks-we-know.md)
