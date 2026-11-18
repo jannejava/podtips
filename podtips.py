@@ -28,6 +28,8 @@ DOCS = ROOT / "docs"
 DONE = ROOT / "done.json"
 AUDIO = ROOT / "audio"
 TRANSCRIPTS = ROOT / "transcripts"
+SITE = "https://jannejava.github.io/podtips/"
+FEED_SIZE = 20
 
 # Episodes older than this are skipped unless you use --only.
 START_DATE = datetime(2026, 10, 31, tzinfo=timezone.utc)
@@ -301,6 +303,33 @@ def write_index():
     (DOCS / "index.md").write_text("\n".join(lines))
 
 
+def feed_entry(feed, path):
+    text = path.read_text()
+    podcast = json.loads(re.search(r"^podcast: (.+)$", text, re.MULTILINE)[1])
+    title = re.search(r"^# (.+)$", text, re.MULTILINE)[1]
+    url = f"{SITE}{path.parent.name}/{path.stem}.html"
+    entry = ET.SubElement(feed, "entry")
+    ET.SubElement(entry, "title").text = f"{podcast}: {title}"
+    ET.SubElement(entry, "id").text = url
+    ET.SubElement(entry, "link", href=url)
+    ET.SubElement(entry, "updated").text = f"{path.name[:10]}T00:00:00Z"
+    ET.SubElement(entry, "summary").text = ", ".join(re.findall(r"^- \*\*(.+?)\*\*", text, re.MULTILINE))
+
+
+def write_feed():
+    pages = sorted(DOCS.glob("*/*.md"), key=lambda path: path.name, reverse=True)[:FEED_SIZE]
+    feed = ET.Element("feed", xmlns="http://www.w3.org/2005/Atom")
+    ET.SubElement(feed, "title").text = "Podtips"
+    ET.SubElement(feed, "id").text = SITE
+    ET.SubElement(feed, "link", href=SITE)
+    ET.SubElement(feed, "updated").text = f"{pages[0].name[:10]}T00:00:00Z"
+    ET.SubElement(ET.SubElement(feed, "author"), "name").text = "Podtips"
+    for path in pages:
+        feed_entry(feed, path)
+    ET.indent(feed)
+    ET.ElementTree(feed).write(DOCS / "feed.xml", encoding="utf-8", xml_declaration=True)
+
+
 def publish():
     for command in (["git", "add", "-A"], ["git", "commit", "-m", "Update podcast tips"], ["git", "push"]):
         subprocess.run(command, cwd=ROOT, check=True)
@@ -342,6 +371,7 @@ def main():
 
     if len(done) > finished_before:
         write_index()
+        write_feed()
         publish()
 
 

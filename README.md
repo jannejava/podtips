@@ -9,7 +9,7 @@ The web page is public, also when the repo is private. Only the `docs/` folder i
 1. The script reads the RSS feed of each podcast.
 2. It gets a transcript. It uses the transcript from the feed if there is one. If not, it downloads the audio and uses Whisper on the Mac GPU.
 3. It sends the show notes and the transcript to Claude with the `claude` command. Claude returns the tips.
-4. It writes one file for the episode in `docs/` and updates `docs/index.md`.
+4. It writes one file for the episode in `docs/` and updates `docs/index.md` and `docs/feed.xml`.
 5. It commits and pushes the result.
 
 The audio file is deleted after transcription. The transcript stays in `transcripts/`, so a new extraction does not need Whisper again.
@@ -41,6 +41,16 @@ Add an episode with a pabloheld.com link:
 If a word matches several episodes, the script processes all of them. The script skips episodes that are already in `done.json`.
 
 To process an episode again, remove its entry from `done.json` and run the script with `--only`. Then the script overwrites the episode file.
+
+## Feed
+
+Follow new episodes in a feed reader, for example NetNewsWire. Add this address:
+
+```
+https://jannejava.github.io/podtips/feed.xml
+```
+
+The feed has the newest 20 episodes from all podcasts. Each entry links to the episode page and lists the titles of the tips. The script writes the feed after a run with new episodes.
 
 ## Podcasts
 
@@ -79,6 +89,7 @@ To use this rule for another podcast, set `"prompt": "listings"` in its `FEEDS` 
 | `podtips.py` | The script | Yes |
 | `done.json` | The finished episodes | Yes |
 | `docs/index.md` | The start page with all episodes | Yes |
+| `docs/feed.xml` | The Atom feed with the newest 20 episodes | Yes |
 | `docs/<podcast>/<date>-<title>.md` | One file per episode | Yes |
 | `transcripts/` | Saved transcripts | No |
 | `audio/` | Audio during transcription | No |
