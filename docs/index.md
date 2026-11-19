@@ -2,7 +2,6 @@
 
 ## Bio min Bio podden
 
-- 2026-11-18: [126. –  Nya James Bond – Specialavsnitt](bio-min-bio-podden/2026-11-18-126-nya-james-bond-specialavsnitt.md)
 - 2026-11-17: [125. – Utvalda Klassiker med Filmstaden – Dirty Harry](bio-min-bio-podden/2026-11-17-125-utvalda-klassiker-med-filmstaden-dirty-harry.md)
 - 2026-11-13: [124. – Clayface, The Get Out och Apocalypse Now (final cut)](bio-min-bio-podden/2026-11-13-124-clayface-the-get-out-och-apocalypse-now-final-cut.md)
 - 2026-11-06: [123. – Wildwood, Tuner och A Fish Called Wanda](bio-min-bio-podden/2026-11-06-123-wildwood-tuner-och-a-fish-called-wanda.md)
