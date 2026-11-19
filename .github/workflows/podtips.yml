@@ -45,7 +45,7 @@ jobs:
           ANTHROPIC_FEDERATION_RULE_ID: fdrl_01M1uhCiLKw6WkwQYaiVetm5
           ANTHROPIC_ORGANIZATION_ID: a93d9827-95fb-4d57-83db-b5f1b55278aa
           ANTHROPIC_SERVICE_ACCOUNT_ID: svac_01VFGvvHQ5oGmyUF1Yu8dvKT
-          ANTHROPIC_WORKSPACE_ID: wrkspc_01FRvq7fbxbubJdPZoA9Nyxz
+          ANTHROPIC_WORKSPACE_ID: wrkspc_01UYspndLrQAM9o6ZyAocfuG
           ONLY: ${{ inputs.only || (github.event_name == 'push' && '126.' || '') }}
         run: |
           git config user.name "github-actions[bot]"
