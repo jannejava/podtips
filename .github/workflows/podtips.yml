@@ -33,11 +33,18 @@ jobs:
           pip install faster-whisper "av<19" markdown
           npm install -g @anthropic-ai/claude-code
 
-      # Only the Whisper models are cached. Transcripts are never cached, logged or committed.
+      # The Whisper models are cached. Transcripts are never logged or committed.
       - uses: actions/cache@v4
         with:
           path: ~/.cache/huggingface
           key: whisper-models-v1
+
+      # TEST ONLY: keep transcripts between test runs. Remove before merge.
+      - uses: actions/cache/restore@v4
+        with:
+          path: transcripts
+          key: transcripts-${{ github.run_id }}
+          restore-keys: transcripts-
 
       - name: Run podtips
         env:
@@ -55,3 +62,10 @@ jobs:
           else
             python podtips.py
           fi
+
+      # TEST ONLY: save the transcripts also when the run fails. Remove before merge.
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: transcripts
+          key: transcripts-${{ github.run_id }}
