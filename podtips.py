@@ -16,6 +16,7 @@ import subprocess
 import sys
 import time
 import unicodedata
+import urllib.error
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -264,8 +265,11 @@ def anthropic_token():
     }
     request = urllib.request.Request("https://api.anthropic.com/v1/oauth/token", data=json.dumps(body).encode(),
                                      headers={"content-type": "application/json", "User-Agent": "podtips/1.0"})
-    with urllib.request.urlopen(request, timeout=60) as response:
-        return json.load(response)["access_token"]
+    try:
+        with urllib.request.urlopen(request, timeout=60) as response:
+            return json.load(response)["access_token"]
+    except urllib.error.HTTPError as error:
+        raise RuntimeError(f"Claude login failed: HTTP {error.code}: {error.read().decode()}") from None
 
 
 def claude_environment():
@@ -403,6 +407,7 @@ def main():
     parser.add_argument("--only", help="text in the episode title, or a pabloheld.com episode link")
     only = parser.parse_args().only
 
+    claude_environment()  # Check the Claude login before Whisper starts, so a login error shows at once.
     done = json.loads(DONE.read_text()) if DONE.exists() else []
     finished_before = len(done)
     for feed in FEEDS:
