@@ -298,7 +298,10 @@ def ask_claude(prompt, tools):
     if result.returncode != 0:
         raise RuntimeError(f"claude failed with exit code {result.returncode}: {result.stderr or result.stdout}")
     # After a web search, the reply ends with a list of sources after the JSON array.
-    return json.JSONDecoder().raw_decode(result.stdout, result.stdout.index("["))[0]
+    items = json.JSONDecoder().raw_decode(result.stdout, result.stdout.index("["))[0]
+    if not items:
+        print(f"  Claude found nothing. The start of its reply: {result.stdout[:500]!r}", flush=True)
+    return items
 
 
 def check_claude():
