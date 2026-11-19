@@ -50,7 +50,7 @@ Follow new episodes in a feed reader, for example NetNewsWire. Add this address:
 https://jannejava.github.io/podtips/feed.xml
 ```
 
-The feed has the newest 20 episodes from all podcasts. Each entry links to the episode page and lists the titles of the tips. The script writes the feed after a run with new episodes.
+The feed has the newest 20 episodes from all podcasts. Each entry links to the episode page and has the whole page with all tips. The script writes the feed after a run with new episodes.
 
 ## Podcasts
 
@@ -104,7 +104,7 @@ You need an Apple Silicon Mac, ffmpeg, `uv`, and the `claude` command with a log
 
 ```
 uv venv --python 3.12 .venv
-uv pip install --python .venv/bin/python mlx-whisper
+uv pip install --python .venv/bin/python mlx-whisper markdown
 .venv/bin/python -c "
 from huggingface_hub import snapshot_download
 snapshot_download('jegeblad/kb-whisper-large-mlx-q4', local_dir='models/kb-whisper-large-mlx-q4')

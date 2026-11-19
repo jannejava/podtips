@@ -21,6 +21,7 @@ from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 
+import markdown
 import mlx_whisper
 
 ROOT = Path(__file__).parent
@@ -313,7 +314,8 @@ def feed_entry(feed, path):
     ET.SubElement(entry, "id").text = url
     ET.SubElement(entry, "link", href=url)
     ET.SubElement(entry, "updated").text = f"{path.name[:10]}T00:00:00Z"
-    ET.SubElement(entry, "summary").text = ", ".join(re.findall(r"^- \*\*(.+?)\*\*", text, re.MULTILINE))
+    page = text.split("---\n", 2)[2]
+    ET.SubElement(entry, "content", type="html").text = markdown.markdown(page)
 
 
 def write_feed():
