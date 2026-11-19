@@ -292,15 +292,26 @@ def claude_environment():
     return {**os.environ, "ANTHROPIC_AUTH_TOKEN": anthropic_token()}
 
 
+def ask_claude(prompt, tools):
+    command = ["claude", "-p", "--model", "sonnet", *tools, "--strict-mcp-config", "--no-session-persistence"]
+    result = subprocess.run(command, input=prompt, capture_output=True, text=True, env=claude_environment())
+    if result.returncode != 0:
+        raise RuntimeError(f"claude failed with exit code {result.returncode}: {result.stderr or result.stdout}")
+    # After a web search, the reply ends with a list of sources after the JSON array.
+    return json.JSONDecoder().raw_decode(result.stdout, result.stdout.index("["))[0]
+
+
+def check_claude():
+    """Make one small real Claude call with the tools for tips, before Whisper starts. Takes about half a minute."""
+    prompt = ("Open https://www.justwatch.com/se/film/cliffhanger. Reply with only a JSON array with the names "
+              "of the streaming and rental services on the page.")
+    print(f"Claude check: {ask_claude(prompt, TOOLS['tips'])}", flush=True)
+
+
 def extract(episode, text):
     prompt = PROMPTS[episode["prompt"]].format(title=episode["title"], notes=episode["notes"], transcript=text,
                            language=LABELS[episode["language"]]["language"])
-    command = ["claude", "-p", "--model", "sonnet", *TOOLS[episode["prompt"]], "--strict-mcp-config",
-               "--no-session-persistence"]
-    reply = subprocess.run(command, input=prompt, capture_output=True, text=True, check=True,
-                           env=claude_environment()).stdout
-    # After a web search, the reply ends with a list of sources after the JSON array.
-    return json.JSONDecoder().raw_decode(reply, reply.index("["))[0]
+    return ask_claude(prompt, TOOLS[episode["prompt"]])
 
 
 def search_links(tip):
@@ -419,7 +430,7 @@ def main():
     parser.add_argument("--only", help="text in the episode title, or a pabloheld.com episode link")
     only = parser.parse_args().only
 
-    claude_environment()  # Check the Claude login before Whisper starts, so a login error shows at once.
+    check_claude()
     done = json.loads(DONE.read_text()) if DONE.exists() else []
     finished_before = len(done)
     for feed in FEEDS:
