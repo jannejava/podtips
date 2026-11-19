@@ -439,7 +439,7 @@ def main():
             print(f"{feed['name']}: {episode['title']}", flush=True)
             started = time.time()
             text = transcript(episode)
-            print(f"  transcript {time.time() - started:.0f} s", flush=True)
+            print(f"  transcript {time.time() - started:.0f} s, {len(text.splitlines())} lines, {len(text)} characters", flush=True)
             tips = extract(episode, text)
             write_episode(episode, tips)
             done.append(episode["guid"])
