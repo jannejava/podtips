@@ -10,8 +10,10 @@ Usage:
 import argparse
 import hashlib
 import json
+import os
 import re
 import subprocess
+import sys
 import time
 import unicodedata
 import urllib.parse
@@ -22,13 +24,17 @@ from email.utils import parsedate_to_datetime
 from pathlib import Path
 
 import markdown
-import mlx_whisper
 
 ROOT = Path(__file__).parent
 DOCS = ROOT / "docs"
 DONE = ROOT / "done.json"
 AUDIO = ROOT / "audio"
 TRANSCRIPTS = ROOT / "transcripts"
+
+# Whisper runs on the GPU with mlx on a Mac, and on the CPU with faster-whisper elsewhere (GitHub Actions).
+BACKEND = "mlx" if sys.platform == "darwin" else "cpu"
+SWEDISH_MODEL = {"mlx": ROOT / "models/kb-whisper-large-mlx-q4", "cpu": "KBLab/kb-whisper-large"}
+ENGLISH_MODEL = {"mlx": ROOT / "models/whisper-large-v3-turbo", "cpu": "large-v3-turbo"}
 SITE = "https://jannejava.github.io/podtips/"
 FEED_SIZE = 20
 
@@ -40,26 +46,26 @@ FEEDS = [
         "name": "Bio min Bio podden",
         "url": "https://feeds.acast.com/public/shows/6a47efea5ef16cb804152197",
         "language": "sv",
-        "model": ROOT / "models/kb-whisper-large-mlx-q4",
+        "model": SWEDISH_MODEL,
     },
     {
         "name": "You'll Hear It",
         "url": "https://feeds.transistor.fm/youll-hear-it-music-advice",
         "language": "en",
-        "model": ROOT / "models/whisper-large-v3-turbo",
+        "model": ENGLISH_MODEL,
     },
     {
         "name": "Pablo Held Investigates",
         "url": "https://pabloheldinvestigates.com/feed/podcast/",
         "language": "en",
-        "model": ROOT / "models/whisper-large-v3-turbo",
+        "model": ENGLISH_MODEL,
         "only_on_request": True,
     },
     {
         "name": "Börsens Finest",
         "url": "https://rss.buzzsprout.com/2499868.rss",
         "language": "sv",
-        "model": ROOT / "models/kb-whisper-large-mlx-q4",
+        "model": SWEDISH_MODEL,
         "prompt": "listings",
     },
 ]
@@ -210,11 +216,20 @@ def whisper(episode):
     AUDIO.mkdir(exist_ok=True)
     path = AUDIO / f"{hashlib.sha1(episode['guid'].encode()).hexdigest()}.mp3"
     path.write_bytes(fetch(episode["audio"]))
-    result = mlx_whisper.transcribe(
-        str(path), path_or_hf_repo=str(episode["model"]), language=episode["language"]
-    )
+    segments = transcribe(path, episode["model"][BACKEND], episode["language"])
     path.unlink()
-    return "\n".join(f"[{timestamp(s['start'])}] {s['text'].strip()}" for s in result["segments"])
+    return "\n".join(f"[{timestamp(start)}] {text.strip()}" for start, text in segments)
+
+
+def transcribe(path, model, language):
+    # Each package exists only on its own platform, so import it here.
+    if BACKEND == "mlx":
+        import mlx_whisper
+        result = mlx_whisper.transcribe(str(path), path_or_hf_repo=str(model), language=language)
+        return [(segment["start"], segment["text"]) for segment in result["segments"]]
+    from faster_whisper import WhisperModel
+    segments, _ = WhisperModel(model, device="cpu", compute_type="int8").transcribe(str(path), language=language)
+    return [(segment.start, segment.text) for segment in segments]
 
 
 def transcript(episode):
@@ -230,12 +245,44 @@ def transcript(episode):
     return text
 
 
+def github_oidc_token(audience):
+    url = f"{os.environ['ACTIONS_ID_TOKEN_REQUEST_URL']}&audience={urllib.parse.quote(audience)}"
+    headers = {"Authorization": f"Bearer {os.environ['ACTIONS_ID_TOKEN_REQUEST_TOKEN']}"}
+    with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=60) as response:
+        return json.load(response)["value"]
+
+
+def anthropic_token():
+    """On GitHub Actions, trade the run's OIDC token for a short-lived Claude API token."""
+    body = {
+        "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
+        "assertion": github_oidc_token("https://api.anthropic.com"),
+        "federation_rule_id": os.environ["ANTHROPIC_FEDERATION_RULE_ID"],
+        "organization_id": os.environ["ANTHROPIC_ORGANIZATION_ID"],
+        "service_account_id": os.environ["ANTHROPIC_SERVICE_ACCOUNT_ID"],
+        "workspace_id": os.environ["ANTHROPIC_WORKSPACE_ID"],
+    }
+    request = urllib.request.Request("https://api.anthropic.com/v1/oauth/token", data=json.dumps(body).encode(),
+                                     headers={"content-type": "application/json", "User-Agent": "podtips/1.0"})
+    with urllib.request.urlopen(request, timeout=60) as response:
+        return json.load(response)["access_token"]
+
+
+def claude_environment():
+    # On a Mac, claude uses your own login. On GitHub Actions, it gets a new token for each call.
+    on_github_actions = "ACTIONS_ID_TOKEN_REQUEST_URL" in os.environ
+    if not on_github_actions:
+        return None
+    return {**os.environ, "ANTHROPIC_AUTH_TOKEN": anthropic_token()}
+
+
 def extract(episode, text):
     prompt = PROMPTS[episode["prompt"]].format(title=episode["title"], notes=episode["notes"], transcript=text,
                            language=LABELS[episode["language"]]["language"])
     command = ["claude", "-p", "--model", "sonnet", *TOOLS[episode["prompt"]], "--strict-mcp-config",
                "--no-session-persistence"]
-    reply = subprocess.run(command, input=prompt, capture_output=True, text=True, check=True).stdout
+    reply = subprocess.run(command, input=prompt, capture_output=True, text=True, check=True,
+                           env=claude_environment()).stdout
     # After a web search, the reply ends with a list of sources after the JSON array.
     return json.JSONDecoder().raw_decode(reply, reply.index("["))[0]
 
@@ -333,7 +380,7 @@ def write_feed():
 
 
 def publish():
-    for command in (["git", "add", "-A"], ["git", "commit", "-m", "Update podcast tips"], ["git", "push"]):
+    for command in (["git", "add", "-A"], ["git", "commit", "-m", "Update podcast tips"], ["git", "push", "origin", "HEAD"]):
         subprocess.run(command, cwd=ROOT, check=True)
 
 
