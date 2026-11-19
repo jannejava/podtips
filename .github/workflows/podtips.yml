@@ -8,8 +8,6 @@ on:
       only:
         description: Text in the episode title (empty = all new episodes)
         required: false
-  push: # TEST ONLY: remove before merge
-    branches: [feat/actions-run]
 
 permissions:
   contents: write
@@ -33,18 +31,11 @@ jobs:
           pip install faster-whisper "av<19" markdown
           npm install -g @anthropic-ai/claude-code
 
-      # The Whisper models are cached. Transcripts are never logged or committed.
+      # Only the Whisper models are cached. Transcripts are never cached, logged or committed.
       - uses: actions/cache@v4
         with:
           path: ~/.cache/huggingface
           key: whisper-models-v1
-
-      # TEST ONLY: keep transcripts between test runs. Remove before merge.
-      - uses: actions/cache/restore@v4
-        with:
-          path: transcripts
-          key: transcripts-${{ github.run_id }}
-          restore-keys: transcripts-
 
       - name: Run podtips
         env:
@@ -53,7 +44,7 @@ jobs:
           ANTHROPIC_ORGANIZATION_ID: a93d9827-95fb-4d57-83db-b5f1b55278aa
           ANTHROPIC_SERVICE_ACCOUNT_ID: svac_01VFGvvHQ5oGmyUF1Yu8dvKT
           ANTHROPIC_WORKSPACE_ID: wrkspc_01UYspndLrQAM9o6ZyAocfuG
-          ONLY: ${{ inputs.only || (github.event_name == 'push' && '126.' || '') }}
+          ONLY: ${{ inputs.only }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -62,10 +53,3 @@ jobs:
           else
             python podtips.py
           fi
-
-      # TEST ONLY: save the transcripts also when the run fails. Remove before merge.
-      - uses: actions/cache/save@v4
-        if: always()
-        with:
-          path: transcripts
-          key: transcripts-${{ github.run_id }}
