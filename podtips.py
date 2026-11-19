@@ -8,6 +8,7 @@ Usage:
   .venv/bin/python podtips.py --only <url>     process the episode at this pabloheld.com link
 """
 import argparse
+import base64
 import hashlib
 import json
 import os
@@ -255,9 +256,10 @@ def github_oidc_token(audience):
 
 def anthropic_token():
     """On GitHub Actions, trade the run's OIDC token for a short-lived Claude API token."""
+    assertion = github_oidc_token("https://api.anthropic.com")
     body = {
         "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
-        "assertion": github_oidc_token("https://api.anthropic.com"),
+        "assertion": assertion,
         "federation_rule_id": os.environ["ANTHROPIC_FEDERATION_RULE_ID"],
         "organization_id": os.environ["ANTHROPIC_ORGANIZATION_ID"],
         "service_account_id": os.environ["ANTHROPIC_SERVICE_ACCOUNT_ID"],
@@ -269,7 +271,17 @@ def anthropic_token():
         with urllib.request.urlopen(request, timeout=60) as response:
             return json.load(response)["access_token"]
     except urllib.error.HTTPError as error:
-        raise RuntimeError(f"Claude login failed: HTTP {error.code}: {error.read().decode()}") from None
+        raise RuntimeError(f"Claude login failed: HTTP {error.code}: {error.read().decode()}\n"
+                           f"Compare these GitHub token values with the Anthropic federation rule: "
+                           f"{token_claims(assertion)}") from None
+
+
+def token_claims(jwt):
+    """The values in a GitHub OIDC token that a federation rule matches on. Without the signature."""
+    payload = jwt.split(".")[1]
+    claims = json.loads(base64.urlsafe_b64decode(payload + "=" * (-len(payload) % 4)))
+    keys = ("aud", "sub", "repository", "repository_owner", "repository_owner_id", "ref", "event_name")
+    return {key: claims.get(key) for key in keys}
 
 
 def claude_environment():
