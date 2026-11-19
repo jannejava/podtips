@@ -410,7 +410,11 @@ def write_feed():
 
 
 def publish():
-    for command in (["git", "add", "-A"], ["git", "commit", "-m", "Update podcast tips"], ["git", "push", "origin", "HEAD"]):
+    branch = subprocess.run(["git", "rev-parse", "--abbrev-ref", "HEAD"], cwd=ROOT, capture_output=True, text=True,
+                            check=True).stdout.strip()
+    # Pull first, so the push works also when the branch changed during the run.
+    for command in (["git", "add", "-A"], ["git", "commit", "-m", "Update podcast tips"],
+                    ["git", "pull", "--rebase", "origin", branch], ["git", "push", "origin", branch]):
         subprocess.run(command, cwd=ROOT, check=True)
 
 

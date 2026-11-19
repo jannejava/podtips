@@ -7,14 +7,26 @@ The web page is public, also when the repo is private. Only the `docs/` folder i
 ## How it works
 
 1. The script reads the RSS feed of each podcast.
-2. It gets a transcript. It uses the transcript from the feed if there is one. If not, it downloads the audio and uses Whisper on the Mac GPU.
+2. It gets a transcript. It uses the transcript from the feed if there is one. If not, it downloads the audio and uses Whisper.
 3. It sends the show notes and the transcript to Claude with the `claude` command. Claude returns the tips.
 4. It writes one file for the episode in `docs/` and updates `docs/index.md` and `docs/feed.xml`.
 5. It commits and pushes the result.
 
-The audio file is deleted after transcription. The transcript stays in `transcripts/`, so a new extraction does not need Whisper again.
+The audio file is deleted after transcription. On a Mac, the transcript stays in `transcripts/`, so a new extraction does not need Whisper again.
 
-## Run it
+## Weekly run on GitHub Actions
+
+The workflow `.github/workflows/podtips.yml` runs the script every Monday at 05:00 UTC. To start it by hand, open Actions > Podtips > Run workflow. You can enter a word from an episode title.
+
+- Whisper runs on the CPU with `faster-whisper`. It takes about 1 minute per minute of audio. The repo is public, so the minutes are free.
+- Claude logs in with GitHub OIDC. No API key is stored. The run trades its GitHub token for a short Claude token. The Anthropic federation rule `podtips-actions` allows only runs on `main` in this repo, in the workspace `podtips` with a monthly spend limit.
+- Before Whisper starts, the script makes one small Claude call. A login error then shows at once.
+- The transcripts are not saved on GitHub, because they are full copies of the podcasts. A failed run does Whisper again.
+- GitHub sends you an email when a run fails.
+
+To change the workflow, edit the file on GitHub. The `gh` token on the Mac has no `workflow` scope, on purpose.
+
+## Run it on a Mac
 
 Run all commands from the project folder.
 
