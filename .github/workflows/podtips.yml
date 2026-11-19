@@ -30,7 +30,7 @@ jobs:
 
       - name: Install Whisper, markdown and Claude Code
         run: |
-          pip install faster-whisper markdown
+          pip install faster-whisper "av<19" markdown
           npm install -g @anthropic-ai/claude-code
 
       # Only the Whisper models are cached. Transcripts are never cached, logged or committed.
