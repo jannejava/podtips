@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Prepares an Amp orb to run podtips.py: the same tools as the GitHub Actions workflow.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+step() { printf '\n== %s\n' "$1"; SECONDS=0; }
+done_step() { printf '   done in %ss\n' "$SECONDS"; }
+
+step "System packages"
+if ! command -v ffmpeg >/dev/null; then
+  sudo apt-get update -qq
+  sudo apt-get install -y -qq ffmpeg
+fi
+done_step
+
+step "Python 3.12 venv with faster-whisper and markdown"
+[ -x .venv/bin/python ] || uv venv --quiet --python 3.12 .venv
+uv pip install --quiet --python .venv/bin/python faster-whisper "av<19" markdown
+done_step
+
+step "Claude Code CLI"
+command -v claude >/dev/null || npm install -g --silent @anthropic-ai/claude-code
+done_step
