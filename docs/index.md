@@ -2,6 +2,7 @@
 
 ## Bio min Bio podden
 
+- 2026-11-20: [127. – Ebenezer, Hope och Cliffhanger](bio-min-bio-podden/2026-11-20-127-ebenezer-hope-och-cliffhanger.md)
 - 2026-11-18: [126. –  Nya James Bond – Specialavsnitt](bio-min-bio-podden/2026-11-18-126-nya-james-bond-specialavsnitt.md)
 - 2026-11-17: [125. – Utvalda Klassiker med Filmstaden – Dirty Harry](bio-min-bio-podden/2026-11-17-125-utvalda-klassiker-med-filmstaden-dirty-harry.md)
 - 2026-11-13: [124. – Clayface, The Get Out och Apocalypse Now (final cut)](bio-min-bio-podden/2026-11-13-124-clayface-the-get-out-och-apocalypse-now-final-cut.md)
@@ -35,6 +36,7 @@
 
 ## Börsens Finest
 
+- 2026-11-18: [Avsnitt 77 - Million dollar baby](borsens-finest/2026-11-18-avsnitt-77-million-dollar-baby.md)
 - 2026-11-11: [Avsnitt 76 - Tips till Robert 40](borsens-finest/2026-11-11-avsnitt-76-tips-till-robert-40.md)
 - 2026-11-04: [Avsnitt 75 - Fasregelns comeback](borsens-finest/2026-11-04-avsnitt-75-fasregelns-comeback.md)
 - 2026-10-28: [Avsnitt 74 - Legolands Finest](borsens-finest/2026-10-28-avsnitt-74-legolands-finest.md)
