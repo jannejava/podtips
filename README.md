@@ -16,7 +16,7 @@ The audio file is deleted after transcription. On a Mac, the transcript stays in
 
 ## Weekly run on GitHub Actions
 
-The workflow `.github/workflows/podtips.yml` runs the script every Monday at 05:00 UTC. To start it by hand, open Actions > Podtips > Run workflow. You can enter a word from an episode title.
+The workflow `.github/workflows/podtips.yml` runs the script every Monday at 14:43 UTC (15:43 Swedish winter time, 16:43 summer time). To start it by hand, open Actions > Podtips > Run workflow. You can enter a word from an episode title.
 
 - Whisper runs on the CPU with `faster-whisper`. It takes about 1 minute per minute of audio. The repo is public, so the minutes are free.
 - Claude logs in with GitHub OIDC. No API key is stored. The run trades its GitHub token for a short Claude token. The Anthropic federation rule `podtips-actions` allows only runs on `main` in this repo, in the workspace `podtips` with a monthly spend limit.
