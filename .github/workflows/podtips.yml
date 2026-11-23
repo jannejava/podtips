@@ -2,7 +2,7 @@ name: Podtips
 
 on:
   schedule:
-    - cron: "0 5 * * 1" # Every Monday at 05:00 UTC
+    - cron: "43 14 * * 1" # Every Monday at 14:43 UTC (15:43 Swedish winter time)
   workflow_dispatch:
     inputs:
       only:
