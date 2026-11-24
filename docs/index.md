@@ -17,6 +17,7 @@
 
 ## You'll Hear It
 
+- 2026-11-23: [Abbey Road - The Beatles](youll-hear-it/2026-11-23-abbey-road-the-beatles.md)
 - 2026-11-16: [Sunlight - Herbie Hancock](youll-hear-it/2026-11-16-sunlight-herbie-hancock.md)
 - 2026-11-09: [Peak Millennial Jazz?](youll-hear-it/2026-11-09-peak-millennial-jazz.md)
 - 2026-11-02: [Love Deluxe - Sade](youll-hear-it/2026-11-02-love-deluxe-sade.md)
