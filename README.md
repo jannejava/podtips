@@ -100,6 +100,8 @@ To use this rule for another podcast, set `"prompt": "listings"` in its `FEEDS` 
 |---|---|---|
 | `podtips.py` | The script | Yes |
 | `done.json` | The finished episodes | Yes |
+| `requirements.in` | The Python packages for GitHub Actions, with fixed versions | Yes |
+| `requirements.txt` | The same packages and all their dependencies, with hashes. Make it again with `uv pip compile requirements.in --python-version 3.12 --python-platform x86_64-manylinux_2_28 --generate-hashes --no-header -o requirements.txt` | Yes |
 | `docs/index.md` | The start page with all episodes | Yes |
 | `docs/feed.xml` | The Atom feed with the newest 20 episodes | Yes |
 | `docs/<podcast>/<date>-<title>.md` | One file per episode | Yes |
