@@ -10,6 +10,7 @@ Usage:
 import argparse
 import base64
 import hashlib
+import html
 import json
 import os
 import re
@@ -330,12 +331,15 @@ def search_links(tip):
 
 
 def tip_entry(tip, labels):
+    links = search_links(tip)
+    # The text comes from Claude and the podcast, so HTML in it is shown as text, not run on the site.
+    tip = {key: html.escape(value, quote=False) if isinstance(value, str) else value for key, value in tip.items()}
     details = [str(part) for part in (tip.get("creator"), tip.get("year")) if part]
     if tip["type"] != "movie":
         details.append(tip["type"])
     where = f" {labels['where']}: {tip['where']}." if tip.get("where") else ""
     remark = f"{labels['not_impressed']} " if tip.get("verdict") == "not impressed" else ""
-    footer = " · ".join(part for part in (search_links(tip), tip.get("time")) if part)
+    footer = " · ".join(part for part in (links, tip.get("time")) if part)
     return f"- **{tip['title']}** ({', '.join(details)})  \n  {remark}{tip['comment']}{where}  \n  {footer}\n"
 
 
