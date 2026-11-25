@@ -37,6 +37,7 @@
 
 ## Börsens Finest
 
+- 2026-11-25: [Avsnitt 78 - Absolut gehör på börsen](borsens-finest/2026-11-25-avsnitt-78-absolut-gehor-pa-borsen.md)
 - 2026-11-18: [Avsnitt 77 - Million dollar baby](borsens-finest/2026-11-18-avsnitt-77-million-dollar-baby.md)
 - 2026-11-11: [Avsnitt 76 - Tips till Robert 40](borsens-finest/2026-11-11-avsnitt-76-tips-till-robert-40.md)
 - 2026-11-04: [Avsnitt 75 - Fasregelns comeback](borsens-finest/2026-11-04-avsnitt-75-fasregelns-comeback.md)
